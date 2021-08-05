@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <title>Events</title>
+    <style>
+      :root {
+        --ideal-viewport-width: 1200;
+        --current-viewport-width: 100vw;
+        --min-viewport-width: 350px;
+        --max-viewport-width: 3840px;
+        --ideal-font-size: 32;
+        --clamped-viewport-width: clamp(var(--min-viewport-width), var(--current-viewport-width), var(--max-viewport-width));
+      }
+
+      html, body {
+        display: inline-block;
+        font-size: calc(
+          var(--ideal-font-size) * var(--clamped-viewport-width) / var(--ideal-viewport-width)
+        );
+        margin: 0;
+        text-align: center;
+      }
+      div {
+        border: 1px solid black;
+      }
+
+      #element {
+        height: 80vh;
+        width: 60vw;
+      }
+      #area {
+        height: calc(20vh - 4px);
+        width: 60vw;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="element"></div>
+    <div id="area">X: 0 Y: 0</div>
+    <script>
+      let element = document.getElementById('element'),
+      element_styles = document.querySelector('#element');
+      element.addEventListener('mousemove' , function(event) {
+        document.getElementById('area').innerHTML = 'X: ' + event.offsetX + ' Y: ' + event.offsetY;
+        document.getElementById('area').innerHTML += '<br> Width: ' + element_styles.clientWidth + ' Height: ' + element_styles.clientHeight;
+      } );
+    </script>
+  </body>
+</html>
