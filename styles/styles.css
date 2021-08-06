@@ -1,0 +1,31 @@
+:root {
+  --ideal-viewport-width: 1200;
+  --current-viewport-width: 100vw;
+  --min-viewport-width: 350px;
+  --max-viewport-width: 3840px;
+  --ideal-font-size: 48;
+  --clamped-viewport-width: clamp(var(--min-viewport-width), var(--current-viewport-width), var(--max-viewport-width));
+}
+html, body {
+  display: inline-block;
+  font-size: calc(
+    var(--ideal-font-size) * var(--clamped-viewport-width) / var(--ideal-viewport-width)
+  );
+  margin: 0;
+  text-align: center;
+  user-select: none;
+}
+div {
+  border: 1px solid black;
+}
+
+#canvas {
+  background-color: gray;
+  left: 0;
+  position: absolute;
+}
+#container {
+  height: 80vh;
+  position: relative;
+  width: 80vw;
+}
