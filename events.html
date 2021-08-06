@@ -1,50 +1,75 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="utf-8">
-    <title>Events</title>
-    <style>
-      :root {
-        --ideal-viewport-width: 1200;
-        --current-viewport-width: 100vw;
-        --min-viewport-width: 350px;
-        --max-viewport-width: 3840px;
-        --ideal-font-size: 32;
-        --clamped-viewport-width: clamp(var(--min-viewport-width), var(--current-viewport-width), var(--max-viewport-width));
-      }
+<head>
+  <meta charset="utf-8">
+  <title>Drag</title>
+  <style>
+    :root {
+      --ideal-viewport-width: 1200;
+      --current-viewport-width: 100vw;
+      --min-viewport-width: 350px;
+      --max-viewport-width: 3840px;
+      --ideal-font-size: 48;
+      --clamped-viewport-width: clamp(var(--min-viewport-width), var(--current-viewport-width), var(--max-viewport-width));
+    }
+    html, body {
+      display: inline-block;
+      font-size: calc(
+        var(--ideal-font-size) * var(--clamped-viewport-width) / var(--ideal-viewport-width)
+      );
+      margin: 0;
+      text-align: center;
+    }
+    div {
+      border: 1px solid black;
+    }
 
-      html, body {
-        display: inline-block;
-        font-size: calc(
-          var(--ideal-font-size) * var(--clamped-viewport-width) / var(--ideal-viewport-width)
-        );
-        margin: 0;
-        text-align: center;
-      }
-      div {
-        border: 1px solid black;
-      }
+    #container {
+      height: 80vh;
+      width: 60vw;
+    }
+    #area {
+      height: calc(20vh - 2vh);
+      width: 60vw;
+    }
+  </style>
+</head>
+<body>
+  <div id=container><canvas id="element">Please update your browser</canvas></div>
+  <div id="area">X: 0 Y: 0</div>
+<script>
+  let canvas = document.getElementById('element'),
+  styles = document.querySelector('#container'),
+  isMove = false,
+  ctx = canvas.getContext('2d'),
+  width = +getComputedStyle(document.getElementById('container')).width.split('px')[0],
+  height = +getComputedStyle(document.getElementById('container')).height.split('px')[0];
 
-      #element {
-        height: 80vh;
-        width: 60vw;
-      }
-      #area {
-        height: calc(20vh - 4px);
-        width: 60vw;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="element"></div>
-    <div id="area">X: 0 Y: 0</div>
-    <script>
-      let element = document.getElementById('element'),
-      element_styles = document.querySelector('#element');
-      element.addEventListener('mousemove' , function(event) {
-        document.getElementById('area').innerHTML = 'X: ' + event.offsetX + ' Y: ' + event.offsetY;
-        document.getElementById('area').innerHTML += '<br> Width: ' + element_styles.clientWidth + ' Height: ' + element_styles.clientHeight;
-      } );
-    </script>
-  </body>
+  canvas.setAttribute("width", width);
+  canvas.setAttribute("height", height);
+
+  // Event handler
+  canvas.addEventListener('mousemove' , function(event) {
+    document.getElementById('area').innerHTML = 'X: ' + event.offsetX + ' Y: ' + event.offsetY;
+    document.getElementById('area').innerHTML += '<br> Width: ' + styles.clientWidth + ' Height: ' + styles.clientHeight;
+  });
+  canvas.addEventListener('mousedown' , function(event) { start(event); });
+  canvas.addEventListener('mousemove' , function(event) { move(event); });
+  canvas.addEventListener('mouseup' , function(event) { end(event); });
+
+  function start(event) {
+    ctx.fillRect(event.offsetX, event.offsetY, 5, 5);
+    isMove = true;
+  }
+  function move(event) {
+    if (isMove) {
+      ctx.fillRect(event.offsetX, event.offsetY, 5, 5);
+    }
+  }
+  function end(event) {
+    ctx.fillRect(event.offsetX, event.offsetY, 5, 5);
+    isMove = false;
+  }
+</script>
+</body>
 </html>
